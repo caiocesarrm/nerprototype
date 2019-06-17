@@ -47,7 +47,6 @@ plac==0.9.6
 pluggy==0.12.0
 preshed==2.0.1
 protobuf==3.8.0
-pt-core-news-sm==2.1.0
 py==1.8.0
 pymongo==3.8.0
 pyparsing==2.4.0
@@ -73,7 +72,6 @@ tensorboard==1.13.1
 tensorflow==1.13.1
 tensorflow-estimator==1.13.0
 termcolor==1.1.0
-tf-metrics==0.0.1
 thinc==7.0.4
 torch==1.1.0
 tqdm==4.32.1
