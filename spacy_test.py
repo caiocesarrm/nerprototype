@@ -13,6 +13,7 @@ while True:
     for ent in doc.ents:
         print(ent.text,ent.label_)
 '''
+
 ner = ner_controller()
 model = ner.create_model()
 
@@ -23,4 +24,5 @@ while True:
     print('entidades:')
     for ent in doc.ents:
         print(ent.text,ent.label_)
-
+    for token in doc:
+        print(token.text, token.pos_, token.dep_)

@@ -73,10 +73,10 @@ def create_list(index):
         'rapadura','arroz','a','b','c']
         return lista_comidas
     elif index == 1:
-        lista_lugares = ['casa da vo', 'escola', 'cyber', 'terapia', 'parque','shopping','nataçao','clube','xadrez']
+        lista_lugares = ['a','b','c','casa da vo', 'escola', 'cyber', 'terapia', 'parque','shopping','nataçao','clube','xadrez']
         return lista_lugares
     elif index == 2:
-        lista_acoes = ['brincar', 'correr', 'levantar','pular', 'jogar','deitar','dormir', 'sonhar', 'voar', 'trabalhar', 'fugir','viver']
+        lista_acoes = ['a','b','c','brincar', 'correr', 'levantar','pular', 'jogar','deitar','dormir', 'sonhar', 'voar', 'trabalhar', 'fugir','viver']
         return lista_acoes
 
 
