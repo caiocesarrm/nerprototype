@@ -8,9 +8,10 @@ from spacy.util import minibatch, compounding
 class ner_controller:
     NEW_LABELS = ['MISC']
     TRAIN_DATA = train_data.TRAIN_DATA
-    
+
     def train_model(self, data, labels, iterations=20, model='pt'):
         """Set up the pipeline and entity recognizer, and train the new entity."""
+
         random.seed(0)
         if model is not None:
             nlp = spacy.load(model)  # load existing spaCy model
@@ -36,16 +37,21 @@ class ner_controller:
             sizes = compounding(1.0, 4.0, 1.001)
             
             for itn in range(iterations):
-                random.shuffle(self.TRAIN_DATA)
-                batches = minibatch(self.TRAIN_DATA, size=sizes)
+                random.shuffle(data)
+                batches = minibatch(data, size=sizes)
                 losses = {}
                 for batch in batches:
                     texts, annotations = zip(*batch)
                     nlp.update(texts, annotations, sgd=optimizer, drop=0.35, losses=losses)
         return nlp
 
-    def create_model(self):
-        model = self.train_model(self.TRAIN_DATA, self.NEW_LABELS)
+    def create_model(self, data=None, labels=None):
+        if data is None:
+            data = self.TRAIN_DATA
+        if labels is None:
+            labels = self.NEW_LABELS
+
+        model = self.train_model(data, labels)
         return model
 
 

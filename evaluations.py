@@ -2,30 +2,50 @@ import spacy
 from spacy.gold import GoldParse
 from spacy.scorer import Scorer
 from spacy_ner import ner_controller
+from sklearn.model_selection import KFold
+import numpy as np
+import train_data
 
-def evaluate(nlp, examples, ent='MISC'):
-    scorer = Scorer()
-    for input_, annot in examples:
-        text_entities = []
-        for entity in annot.get('entities'):
-            if ent in entity:
-                text_entities.append(entity)
-        doc_gold_text = nlp.make_doc(input_)
-        gold = GoldParse(doc_gold_text, entities=text_entities)
-        pred_value = nlp(input_)
-        scorer.score(pred_value, gold)
-    return scorer.scores
+class SpacyNerEvaluator:
+
+    def score_spacy(self, nlp, examples, ent='MISC'):
+        scorer = Scorer()
+        for input_, annot in examples:
+            text_entities = []
+            for entity in annot.get('entities'):
+                if ent in entity:
+                    text_entities.append(entity)
+            doc_gold_text = nlp.make_doc(input_)
+            gold = GoldParse(doc_gold_text, entities=text_entities)
+            pred_value = nlp(input_)
+            scorer.score(pred_value, gold)
+        return scorer.scores
 
 
-examples = [
-    ('você prefere android ou ios', {'entities': [(13, 20, 'MISC'), (24, 27, 'MISC')]}),
-    ('qual item você gostaria a b ou c', {'entities': [(2, 3, 'MISC'), (26, 27, 'MISC'), (12, 13, 'MISC')]}),
-    ('qual é a resposta correta a b ou c', {'entities': [(2, 3, 'MISC'), (28, 29, 'MISC'), (18, 19, 'MISC')]}),
-    ('qual item você gostaria um chá um café ou um refrigerante', {'entities': [(27, 30, 'MISC'), (34, 38, 'MISC'), (45, 57, 'MISC')]}),
-]
+    def evaluate(self, n_splits, data):
+        kf = KFold(n_splits=n_splits)
+        X = np.array(data)
+        results = []
 
-ner = ner_controller()
-model = ner.create_model()
+        for train_index, test_index in kf.split(X):
+            print("TRAIN:", train_index, "TEST:", test_index)
+            X_train, X_test = X[train_index], X[test_index]
+            ner = ner_controller()
+            model = ner.create_model(data=X_train.tolist())
+            results.append(self.score_spacy(model, X_test.tolist()))
+        
+        for i in results:
+            print(i)
+        return results
 
-results = evaluate(model, examples)
-print(results)
+
+evaluator = SpacyNerEvaluator()
+evaluator.evaluate(5, train_data.TRAIN_DATA)
+
+
+
+    
+
+
+
+
