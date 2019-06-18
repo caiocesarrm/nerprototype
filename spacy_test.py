@@ -1,5 +1,7 @@
 import spacy
 import os
+from spacy_ner import ner_controller
+'''
 os.system("python -m spacy download pt")
 nlp = spacy.load('pt')
 
@@ -10,3 +12,15 @@ while True:
     print('entidades:\n')
     for ent in doc.ents:
         print(ent.text,ent.label_)
+'''
+ner = ner_controller()
+model = ner.create_model()
+
+print('ready')
+while True:
+    text = input()
+    doc = model(text)
+    print('entidades:')
+    for ent in doc.ents:
+        print(ent.text,ent.label_)
+

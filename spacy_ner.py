@@ -48,16 +48,4 @@ class ner_controller:
         model = self.train_model(self.TRAIN_DATA, self.NEW_LABELS)
         return model
 
-'''
-ner = ner_controller()
-model = ner.create_model()
 
-print('ready')
-while True:
-    text = input()
-    doc = model(text)
-    print('entidades:')
-    for ent in doc.ents:
-        print(ent.text,ent.label_)
-
-'''
