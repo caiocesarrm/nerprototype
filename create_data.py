@@ -42,6 +42,10 @@ def affirmative_questions(i, j, k):
 def get_word_position(sentence, word):
     return sentence.index(word)
 
+def get_random_word(lista):
+        
+
+
 def read_csv(path_arq):
     columns_df = []
     rows_df = []
@@ -125,7 +129,24 @@ def create_train_with_csv(data_path, train_file):
         f.write(train_sample + '\n')
     f.close()
             
+def create_phrases_through_template(file_path):
+    df = pd.read_csv(data_path)
 
+    f = open(train_file, 'a')
+
+    for i in range(len(df)):
+        sentence = df.ix[i,0].lower()
+        entities = df.ix[i,1].split(',')
+        
+        for entity in entities:
+            
+            sentence.replace(entity, )
+
+
+        f.write(train_sample + '\n')
+    f.close()
+
+    
 
 create_train_with_csv('Frases - PT.csv', 'train_data.py')
 generate_training_data('train_data.py')
