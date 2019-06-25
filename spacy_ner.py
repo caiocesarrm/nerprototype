@@ -1,15 +1,18 @@
 import spacy
 import os
-import train_data
+import train_data_en
 os.system("python -m spacy download pt")
 import random
 from spacy.util import minibatch, compounding
 
 class ner_controller:
     NEW_LABELS = ['MISC']
-    TRAIN_DATA = train_data.TRAIN_DATA
+    TRAIN_DATA = None
 
-    def train_model(self, data, labels, iterations=20, model='pt'):
+    def __init__(self, train_data): 
+        self.TRAIN_DATA = train_data
+
+    def train_model(self, data, labels, iterations=20, model='en_core_web_sm'):
         """Set up the pipeline and entity recognizer, and train the new entity."""
 
         random.seed(0)
