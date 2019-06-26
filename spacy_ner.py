@@ -21,7 +21,7 @@ class ner_controller:
         if model is not None:
             nlp = spacy.load(model)  # load existing spaCy model
         else:
-            nlp = spacy.blank(model)  # create blank Language class
+            nlp = spacy.blank('pt')  # create blank Language class
             
         if "ner" not in nlp.pipe_names:
             ner = nlp.create_pipe("ner")

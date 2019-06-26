@@ -7,6 +7,7 @@ import numpy as np
 import train_data_en
 import train_data
 from googletrans import Translator
+
 class SpacyEvaluator:
     train_data = None
     model = None
@@ -46,6 +47,8 @@ class SpacyEvaluator:
         for i in results:
             print(i)
         return results
+        
+
 
 
 
@@ -53,8 +56,8 @@ class SpacyEvaluator:
 #evaluator = SpacyEvaluator(train_data_en.TRAIN_DATA, "en_core_web_sm")
 #evaluator.evaluate_ner(5)
 
-#evaluator = SpacyEvaluator(train_data.TRAIN_DATA, "pt")
-#evaluator.evaluate_ner(5)
+evaluator = SpacyEvaluator(train_data.TRAIN_DATA, 'pt')
+evaluator.evaluate_ner(5)
 
 
 from sklearn.metrics import f1_score
