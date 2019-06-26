@@ -8,11 +8,13 @@ from spacy.util import minibatch, compounding
 class ner_controller:
     NEW_LABELS = ['MISC']
     TRAIN_DATA = None
+    model = None
 
-    def __init__(self, train_data): 
+    def __init__(self, train_data, model): 
         self.TRAIN_DATA = train_data
+        self.model = model
 
-    def train_model(self, data, labels, iterations=20, model='en_core_web_sm'):
+    def train_model(self, data, labels, iterations=20, model=None):
         """Set up the pipeline and entity recognizer, and train the new entity."""
 
         random.seed(0)
@@ -54,7 +56,7 @@ class ner_controller:
         if labels is None:
             labels = self.NEW_LABELS
 
-        model = self.train_model(data, labels)
+        model = self.train_model(data, labels, model=self.model)
         return model
 
 
