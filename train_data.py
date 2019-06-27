@@ -15,7 +15,7 @@ TRAIN_DATA = [('voce quer comer batata frita cachorro quente ou hamburguer', {'e
 ('voce quer fritas hambúrguer feijao ou arroz', {'entities': [(10, 16, 'MISC'), (17, 27, 'MISC'), (28, 34, 'MISC'), (38, 43, 'MISC')]}),
 ('voce quer dormir andar comer ou sonhar', {'entities': [(10, 16, 'MISC'), (17, 22, 'MISC'), (23, 28, 'MISC'), (32, 38, 'MISC')]}),
 ('voce quer dormir com ou sem travesseiro', {'entities': [(17, 20, 'MISC'), (24, 27, 'MISC')]}),
-('voce quer ir na casa da sua tia ou ficar em casa', {'entities': [(10, 12, 'MISC'), (35, 40, 'MISC')]}),
+('voce quer ir na casa da sua tia ou ficar em casa', {'entities': [(28, 31, 'MISC'), (16, 20, 'MISC')]}),
 ('voce quer banana com ou sem maça', {'entities': [(17, 20, 'MISC'), (24, 27, 'MISC')]}),
 ('voce quer banana maça ou salada', {'entities': [(10, 16, 'MISC'), (17, 21, 'MISC'), (25, 31, 'MISC')]}),
 ('voce quer maça com ou sem salada', {'entities': [(15, 18, 'MISC'), (22, 25, 'MISC')]}),

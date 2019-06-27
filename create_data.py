@@ -40,10 +40,12 @@ def affirmative_questions(i, j, k):
     return sentence_to_train_format(sentence, entities)
 
 def get_word_position(sentence, word):
-    return sentence.index(word)
-
+    try:    
+        return sentence.index(word)
+    except:
+        print('The phrase does not contain the entity ' + word)
 def get_random_word(lista):
-        
+    pass
 
 
 def read_csv(path_arq):

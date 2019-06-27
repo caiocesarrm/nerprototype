@@ -22,6 +22,7 @@ class SpacyEvaluator:
             text_entities = []
             for entity in annot.get('entities'):
                 if ent in entity:
+                    print(ent)
                     text_entities.append(entity)
             doc_gold_text = nlp.make_doc(input_)
             gold = GoldParse(doc_gold_text, entities=text_entities)
@@ -67,6 +68,7 @@ y_pred = ['test', 'vai']
 
 print(f1_score(y_true, y_pred, average='macro'))
 
+phrase = input()
 translator = Translator()
 translator.translate(phrase, src='pt', dest='en')
     
