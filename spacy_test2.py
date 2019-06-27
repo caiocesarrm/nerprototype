@@ -2,6 +2,9 @@ import spacy
 import os
 from spacy_ner import ner_controller
 import train_data
+from spacy_ner import ner_controller
+from sklearn.model_selection import KFold
+import numpy as np
 
 def get_true_entities(data):
     phrase = data[0]
@@ -25,9 +28,6 @@ def after_root_candidates(candidates, root_dist, token, doc, prep):
     else:
         candidates.append(doc[token.i+root_dist +1].text)
 
-model = spacy.load("pt")
-print('ready')
-
 def regex_predict(text, model):
     prep = ['de','da','do', 'com']
     forbidden_words = prep + ['ou']
@@ -50,7 +50,7 @@ def regex_predict(text, model):
 
 
     for token in doc:
-        print(token.text, token.pos_, token.dep_)
+        #print(token.text, token.pos_, token.dep_)
         if token.dep_ == 'ROOT':
             if doc[token.i+1].dep_ == 'xcomp' and doc[token.i+2].pos_ != 'VERB':
                 after_root_candidates(candidates, 1, token, doc, prep)
@@ -105,10 +105,15 @@ def f1_score(tp, fp, fn):
     print('Precision: ' + str(precision))
     print('Recall: '+str(recall))
     print('F1: ' + str(f1))
+    return f1
 
+
+model = spacy.load("pt")
+print('ready')
 tp = 0
 fp = 0
 fn = 0
+'''
 
 for data in train_data.TRAIN_DATA:
     print(data[0])
@@ -120,4 +125,57 @@ for data in train_data.TRAIN_DATA:
     tp, fp, fn = prediction_eval(true_entities, pred_entities, tp, fp, fn)
     #a = input()
 f1_score(tp, fp, fn)
+
+'''
+data = train_data.TRAIN_DATA
+kf = KFold(n_splits=5)
+X = np.array(data)
+results = []
+f1 = 0
+for train_index, test_index in kf.split(X):
+    tp = 0
+    fp = 0
+    fn = 0
+    
+    print("TRAIN:", train_index, "TEST:", test_index)
+    X_train, X_test = X[train_index], X[test_index]
+    for data in X_test.tolist():
+        
+        true_entities = get_true_entities(data)
+        pred_entities = regex_predict(data[0], model)
+        #print(data[0])
+        #print(true_entities)
+        #print(pred_entities)
+
+        tp, fp, fn = prediction_eval(true_entities, pred_entities, tp, fp, fn)
+        #a = input()
+    f1 += f1_score(tp, fp, fn)
+
+f1 = f1/5
+print("F1 MEDIO: " + str(f1))
+'''
+data = train_data.TRAIN_DATA
+kf = KFold(n_splits=5)
+X = np.array(data)
+results = []
+
+for train_index, test_index in kf.split(X):
+    tp = 0
+    fp = 0
+    fn = 0
+    print("TRAIN:", train_index, "TEST:", test_index)
+    X_train, X_test = X[train_index], X[test_index]
+    ner = ner_controller(data, 'pt')
+    model = ner.create_model(data=X_train.tolist())
+    
+    for data in X_test.tolist():
+        doc = model(data[0])
+        pred_entities = [str(ent) for ent in doc.ents]
+        true_entities = get_true_entities(data)
+        tp, fp, fn = prediction_eval(true_entities, pred_entities, tp, fp, fn)
+    
+    f1_score(tp, fp, fn)
+    
+    
+'''
 
