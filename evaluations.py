@@ -48,6 +48,9 @@ class SpacyEvaluator:
         for i in results:
             print(i)
         return results
+
+    def evaluate_regex(self):
+        
         
 
 
