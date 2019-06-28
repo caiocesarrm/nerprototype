@@ -121,8 +121,7 @@ def generate_training_data(train_file):
 def create_train_with_csv(data_path, train_file):
     df = pd.read_csv(data_path)
 
-    f = open(train_file, 'w+')
-    f.write('TRAIN_DATA = [')
+    f = open(train_file, 'a')
 
     for i in range(len(df)):
         sentence = df.ix[i,0].lower()
@@ -148,10 +147,14 @@ def create_phrases_through_template(file_path):
         f.write(train_sample + '\n')
     f.close()
 
-    
+def create_portuguese_data(file_path):
+    f = open(file_path, 'w+')
+    f.write('TRAIN_DATA = [')
+    f.close()
+    create_train_with_csv('Frases - PT.csv', file_path)
+    #generate_training_data(file_path)
+    f = open(file_path, 'a')
+    f.write(']')
+    f.close()
 
-create_train_with_csv('Frases - PT.csv', 'train_data.py')
-generate_training_data('train_data.py')
-f = open('train_data.py', 'a')
-f.write(']')
-f.close()
+create_portuguese_data('train_data.py')

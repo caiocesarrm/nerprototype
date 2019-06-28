@@ -2,10 +2,11 @@ import json
 from flask import request, jsonify, Blueprint, abort, Flask
 from flask.views import MethodView
 from spacy_ner import ner_controller
+import train_data
 
 app = Flask(__name__)
 
-ner = ner_controller()
+ner = ner_controller(train_data.TRAIN_DATA, 'pt')
 model = ner.create_model()
 
 class NerAPI(MethodView):
