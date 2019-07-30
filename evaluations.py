@@ -95,6 +95,8 @@ class SpacyEvaluator:
                 doc = model(data[0])
                 true_entities = scorer.get_true_entities(data)
                 pred_entities = [str(ent) for ent in doc.ents]
+                print(true_entities)
+                print(pred_entities)
                 scorer.prediction_eval(true_entities, pred_entities)
 
             results.append(scorer.f1)
@@ -115,6 +117,9 @@ class SpacyEvaluator:
                 
                 true_entities = scorer.get_true_entities(data)
                 pred_entities = model.predict(data[0])
+
+                print(pred_entities)
+                print(true_entities)
                 scorer.prediction_eval(true_entities, pred_entities)
             results.append(scorer.f1)
 
@@ -129,7 +134,7 @@ class SpacyEvaluator:
 
 evaluator = SpacyEvaluator(train_data.TRAIN_DATA, 'pt')
 evaluator.evaluate_ner(5)
-evaluator.evaluate_regex(5)
+#evaluator.evaluate_regex(5)
 '''
 from sklearn.metrics import f1_score
 
